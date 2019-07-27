@@ -1,0 +1,15 @@
+version: '3'
+services: 
+  db:
+    image: postgres
+  web: 
+#buildの際、カレントディレクトリを指定すると、カレントのDockerfileをもとにイメージがビルドされる。
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes: 
+      - .:/code
+    ports: 
+      - "8000:8000"
+#depends_onは依存関係を定義する。この場合、dbが起動した後にwebが起動する。
+    depends_on: 
+      - db
